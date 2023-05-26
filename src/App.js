@@ -1,10 +1,20 @@
-
+import { ChakraProvider } from '@chakra-ui/react';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Navbar from './components/Navbar';
+import ProductsScreen from './components/ProductsScreen';
 
 function App() {
   return (
-    <div className="App">
-      <h1>app</h1>
-    </div>
+   <ChakraProvider>
+    <Router>
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path='/products' element={<ProductsScreen />}/>
+        </Routes>
+      </main>
+    </Router>
+   </ChakraProvider>
   );
 }
 
