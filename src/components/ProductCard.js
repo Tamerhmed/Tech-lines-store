@@ -11,15 +11,19 @@ import {
     Stack,
     Link,
     HStack,
-    Text
+    Text,
+    useToast
 } from '@chakra-ui/react';
 import {FiShoppingCart} from 'react-icons/fi';
 import {Link as ReactLink} from 'react-router-dom';
 import { StarIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import { addCartItem } from '../redux/actions/cartActions';
 
 const Rating = ({rating, numReviews})=> {
     const {iconSize, setIconSize} = useState('14px');
+
     return (
         <Flex>
             <HStack spacing='2px'>
@@ -37,6 +41,26 @@ const Rating = ({rating, numReviews})=> {
 }
 
 const ProductCard = ({product}) => {
+    const dispatch = useDispatch();
+    const {cart} = useSelector(state => state.cart);
+    const toast = useToast();
+
+    const addItem = (id)=> {
+        if(cart.some(cartItem => cartItem.id === id)) {
+            toast({
+                description:'This item is already in your cart. Go to your cart to change the amount',
+                status:'error',
+                isClosable: true,
+            });
+        } else {
+            dispatch(addCartItem(id, 1));
+            toast({
+                description: 'Item has been added',
+                status: 'success',
+                isClosable: true
+            });
+        }
+    }
   return (
     <Stack 
     p={2}
@@ -50,7 +74,7 @@ const ProductCard = ({product}) => {
     position='relative'
     >
        {
-        product.isNew && 
+        product.productIsNew && 
         <Circle
         size='10px'
         position='absolute'
@@ -76,7 +100,7 @@ const ProductCard = ({product}) => {
                     Sold out
                 </Badge>
             )}
-            {product.isNew <= 0 && (
+            {product.productIsNew <= 0 && (
                 <Badge rounded='full' px='2' fontSize='0.8em' colorScheme='green'>
                     New
                 </Badge>
@@ -90,7 +114,7 @@ const ProductCard = ({product}) => {
         </Link>   
        </Flex>
        <Flex py='2' justifyContent='space-between' alignContent='center'>
-         <Rating rating={product.rating} numReviews={product.numReviews}/>
+         <Rating rating={product.rating} numReviews={product.numberOfReviews}/>
        </Flex>
        <Flex justify='space-between'>
         <Box fontSize='2xl' color={useColorModeValue('gray.800', 'white')}>
@@ -100,7 +124,8 @@ const ProductCard = ({product}) => {
             {product.price.toFixed(2)}
         </Box>
         <Tooltip label='Add to cart' bg='white' placeItems='top' color='gray.800' fontSize='1.2em'>
-            <Button variant='ghost' display='flex' disabled={product.stock <= 0}>
+            <Button variant='ghost' display='flex' disabled={product.stock <= 0}
+             onClick={()=>addItem(product._id)}>
                 <Icon as={FiShoppingCart} h={7} w={7} alignSelf='center'/>
             </Button>
         </Tooltip>
