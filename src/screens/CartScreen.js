@@ -10,6 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import {Link as ReactLink} from 'react-router-dom';
 import CartItem from '../components/CartItem';
+import CartOrderSummary from '../components/CartOrderSummary';
 
 
 const CartScreen = () => {
@@ -75,7 +76,7 @@ const CartScreen = () => {
                 </Stack>
             </Stack>
             <Flex direction='column' align='center' flex='1'>
-                {/* CartOrderSummary */}
+                <CartOrderSummary />
                 <HStack mt='6' fontWeight='semibold'>
                     <p>or</p>
                     <Link as={ReactLink}
