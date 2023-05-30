@@ -46,14 +46,15 @@ const CartItem = ({cartItem}) => {
                         dispatch(addCartItem(id, e.target.value))
                     }}
                 >
-                   {[...Array(stock).keys().map((x)=> {
+                   {[...Array(stock).keys()].map((x)=> {
                     return <option 
-                    value={x+1}
-                    key={x+1}
+                    value={x + 1}
+                    key={x + 1}
                     >
                         {x+1}
+                        
                     </option>
-                   })]} 
+                   })} 
                 </Select>
                 <Text fontWeight='bold'>
                     ${price}

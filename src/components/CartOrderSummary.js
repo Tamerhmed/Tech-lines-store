@@ -9,14 +9,14 @@ import {
 import { useState } from 'react';
 import {FaArrowRight} from 'react-icons/fa'
 import { useSelector } from 'react-redux';
-import {link as ReactLink, useNavigate} from 'react-router-dom';
+import {Link as ReactLink, useNavigate} from 'react-router-dom';
 
 
 const CartOrderSummary = () => {
 
     const [buttonLoading, setButtonLoading] = useState();
     const standardShipping = Number(4.99).toFixed(2);
-    const {subTotal} = useSelector(state=> state.cart);
+    const {subtotal} = useSelector(state=> state.cart);
     const navigate = useNavigate();
 
     const checkoutHandler = ()=> {
@@ -33,7 +33,7 @@ const CartOrderSummary = () => {
                         SubTotal
                     </Text>
                     <Text fontWeight='medium'>
-                        {subTotal}
+                        {subtotal}
                     </Text>
                 </Flex>
                 <Flex justify='space-between'>
@@ -41,7 +41,7 @@ const CartOrderSummary = () => {
                         Shipping
                     </Text>
                     <Text fontWeight='medium'>
-                        {subTotal <= 1000 ? (
+                        {subtotal <= 1000 ? (
                             standardShipping
                         ): (
                             <Badge rounded='full' px='2' fontSize='0.8em' colorScheme='green'>
@@ -51,9 +51,9 @@ const CartOrderSummary = () => {
                     </Text>
                 </Flex>
                 <Flex fontSize='lg' fontWeight='semibold'>
-                    {subTotal <= 100 ?
-                     Number(subTotal) + Number(standardShipping)
-                    : subTotal
+                    {subtotal <= 100 ?
+                     Number(subtotal) + Number(standardShipping)
+                    : subtotal
                     }
                 </Flex>
             </Stack>
