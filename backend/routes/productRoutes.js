@@ -9,7 +9,19 @@ const getProducts = async(req, res)=> {
     res.json(products);
 }
 
+const getProduct = async(req, res)=> {
+    const product = await Product.findById(req.params.id);
+
+    if(product) {
+        res.status(200).json(product)
+    } else {
+        res.status(404).json({message: 'Product not found'});
+        throw new Error('Product not found');
+    }
+}
+
 productRoutes.route('/').get(getProducts);
+productRoutes.route('/:id').get(getProduct);
 
 
 

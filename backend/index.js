@@ -5,6 +5,9 @@ import connectToDb from './db.js';
 //routes
 import productRoutes from './routes/productRoutes.js';
 const app = express();
+import cors from 'cors';
+
+app.use(cors());
 app.use(express.json())
 
 const port = process.env.PORT || 4000;
